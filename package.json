@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "JS libray to analyze Markdown files, verify links and provide statics.",
   "main": "index.js",
+  "bin": {
+    "md-links": "./index.js"
+  },
   "directories": {
     "test": "test"
   },
@@ -15,7 +18,8 @@
   },
   "keywords": [
     "markdown",
-    "verify links"
+    "verify links",
+    "cli"
   ],
   "author": "isis lazaro",
   "license": "ISC",
