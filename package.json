@@ -4,7 +4,7 @@
   "description": "JS libray to analyze Markdown files, verify links and provide statics.",
   "main": "index.js",
   "bin": {
-    "md-links": "./index.js"
+    "perrito": "./index.js"
   },
   "directories": {
     "test": "test"
