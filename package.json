@@ -1,4 +1,26 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "JS libray to analyze Markdown files, verify links and provide statics.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isisLazaro/MEX008-FE-md-link.git"
+  },
+  "keywords": [
+    "markdown",
+    "verify links"
+  ],
+  "author": "isis lazaro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isisLazaro/MEX008-FE-md-link/issues"
+  },
+  "homepage": "https://github.com/isisLazaro/MEX008-FE-md-link#readme"
 }
