@@ -4,7 +4,7 @@
   "description": "JS libray to analyze Markdown files, verify links and provide statics.",
   "main": "index.js",
   "bin": {
-    "perrito": "./index.js"
+    "md-links": "./index.js"
   },
   "directories": {
     "test": "test"
@@ -26,5 +26,11 @@
   "bugs": {
     "url": "https://github.com/isisLazaro/MEX008-FE-md-link/issues"
   },
-  "homepage": "https://github.com/isisLazaro/MEX008-FE-md-link#readme"
+  "homepage": "https://github.com/isisLazaro/MEX008-FE-md-link#readme",
+  "dependencies": {
+    "chalk": "2.4.2"
+  },
+  "devDependencies": {
+    "jest": "24.9.0"
+  }
 }
