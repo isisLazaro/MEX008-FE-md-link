@@ -10,12 +10,18 @@ module.exports = () => {
 const path = require('path');
 const chalk = require('chalk');
 
-if (process.argv.length <= 2 || process.argv.length > 5) {
+const validateCommand = require('./app.js');
+
+if (validateCommand.vNumElements(process.argv)) {
+  [pathProcessExe, pahtJsExe, ...args] = process.argv;
+  console.log(args);
+}
+else {
   console.log(`${chalk.red.inverse('ERROR')}\nUsage must be:\nmd-links path-to-file\nmd-links path-to-file --stats \nmd-links path-to-file --validate \nmd-links path-to-file --stats --validate`);
   process.exit(-1);
+  //TODO: cambiar estilo sugerencias
 }
-[pathProcessExe, pahtJsExe, ...args] = process.argv;
-console.log(args);
+
 //console.log(path.basename(args[0]));
 
 /* TODO:
