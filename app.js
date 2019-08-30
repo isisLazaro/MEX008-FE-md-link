@@ -6,7 +6,11 @@ const validateCommand = {
             return false;
         }
         return true;
-        }
+    },
+
+    vIsaPath : () => {
+
+    }
 }
 
 module.exports = validateCommand;
