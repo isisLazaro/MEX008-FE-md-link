@@ -8,6 +8,7 @@ module.exports = () => {
 //console.log(process.argv);
 
 const path = require('path');
+//const fs = require('fs');
 const chalk = require('chalk');
 
 const validateCommand = require('./app.js');
@@ -21,6 +22,9 @@ else {
   process.exit(-1);
   //TODO: cambiar estilo sugerencias
 }
+
+//console.log(fs.statSync(args[0]).isFile());
+console.log(validateCommand.vIsDir(args[0]));
 
 //console.log(path.basename(args[0]));
 

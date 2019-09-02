@@ -13,4 +13,14 @@ describe('vNumElements', () => {
   it('Debería regresar true si el comando tiene el número correcto de elementos', () => {
     expect(validateCommand.vNumElements(command1)).toEqual(true);
   });
+  //TODO: faltan dos casos falsos
+});
+
+describe('vIsDir', () => {
+  it('is a function', () => {
+    expect(typeof validateCommand.vIsDir).toBe('function')
+  });
+  it("Debería regresar false si no es un archivo", () => {
+    expect(validateCommand.vIsDir('c:/')).toEqual(false);
+  });
 });

@@ -1,6 +1,6 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
+  "name": "md-links-idev",
+  "version": "1.0.0",
   "description": "JS libray to analyze Markdown files, verify links and provide statics.",
   "main": "index.js",
   "bin": {
