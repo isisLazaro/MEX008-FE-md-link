@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const validateCommand = {
 
     vNumElements : commandLineArguments => {
@@ -10,11 +13,25 @@ const validateCommand = {
     },
 
     //TODO:
-    //TODO: asegurar que es una rua
+    //TODO: asegurar que es una ruta
     //TODO: archivo o directorio
     vIsDir : filePath => {
-        fs = require('fs');
         return fs.statSync(filePath).isFile();
+    },
+
+    findMD : (pathToDir, cb) => { //promise
+        fs.readdir(pathToDir, (err, list) => {
+            if (err){ return cb(err)};
+            //list = ['file0.ext', 'file1.ext']
+            const mdFiles = list.filter(element => {
+                return path.extname(element).slice(1) == 'md';
+            });
+            cb(null, mdFiles);
+            
+            /* list.forEach(element => {
+                console.log(element);
+            }) */
+        })
     }
 }
 

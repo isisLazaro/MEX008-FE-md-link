@@ -24,3 +24,23 @@ describe('vIsDir', () => {
     expect(validateCommand.vIsDir('c:/')).toEqual(false);
   });
 });
+
+describe('findMD', () => {
+  // FIXME: CAMBIAR A UNA RUTA RELATIVA (?)
+  it('is a function', () => {
+    expect(typeof validateCommand.findMD).toBe('function')
+  });
+  test('Encuentra archivos *.md', done => {
+    validateCommand.findMD('C:/Users/isis7/io/testMD', (err, mdfiles) => {
+     // expect(err).toBeTruthy();
+      expect(mdfiles).toEqual([ 'links.md', 'noLinks.md' ]);
+      done();
+    })
+  })
+  test('falla cuando no hay archivos *.md en el directorio', done => {
+    validateCommand.findMD('C:/Users/isis7/io/test', (err, mdfiles) => {
+      expect(err).toBeTruthy();
+      done();
+    })
+  })
+});
