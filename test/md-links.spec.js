@@ -11,9 +11,14 @@ describe('vNumElements', () => {
     expect(typeof validateCommand.vNumElements).toBe('function');
   });
   it('Debería regresar true si el comando tiene el número correcto de elementos', () => {
-    expect(validateCommand.vNumElements(command1)).toEqual(true);
+    expect(validateCommand.vNumElements(command1)).toBeTruthy();
   });
-  //TODO: faltan dos casos falsos
+  it('Debería regresar false si el comando no se escribe con argumentos y flags', () => {
+    expect(validateCommand.vNumElements(command0)).toBeFalsy();
+  });
+  it('Debería regresar false si el comando se escribe con más elementos de los necesarios', () => {
+    expect(validateCommand.vNumElements(command4)).toBeFalsy();
+  })
 });
 
 describe('vIsDir', () => {

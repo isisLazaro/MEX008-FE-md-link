@@ -19,18 +19,26 @@ const validateCommand = {
         return fs.statSync(filePath).isFile();
     },
 
-    findMD : (pathToDir, cb) => { //promise
+    findMD : (pathToDir, cb) => {
         fs.readdir(pathToDir, (err, list) => {
-            if (err){ return cb(err)};
+            if (err) return cb(err);
             //list = ['file0.ext', 'file1.ext']
             const mdFiles = list.filter(element => {
                 return path.extname(element).slice(1) == 'md';
             });
-            cb(null, mdFiles);
-            
-            /* list.forEach(element => {
+            /* mdFiles.forEach(element => {
                 console.log(element);
             }) */
+            cb(null, mdFiles);
+        })
+    },
+
+    mdLinks : (pathToFile, cb) => {
+        //FIXME: pathtofile is an array [ 'links.md', 'noLinks.md' ] 
+        //TODO: test
+        fs.readFile(pathToFile, 'utf8', (err, fileData) => {
+            if (err) return cb(err);
+            cb(null, fileData);
         })
     }
 }

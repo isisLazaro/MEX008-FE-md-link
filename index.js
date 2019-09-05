@@ -5,7 +5,6 @@
 module.exports = () => {
   console.log('Welcome to the outside!')
 }; */
-//console.log(process.argv);
 
 const chalk = require('chalk');
 
@@ -25,9 +24,17 @@ else {
 //console.log(validateCommand.vIsDir(args[0]));
 //console.log(path.basename(args[0]));
 
-validateCommand.findMD(args[0], (err, mdFiles) =>{
-  if (err) console.error(err);
-  console.log(mdFiles);
+const a =  validateCommand.findMD(args[0], (err, mdFiles) =>{
+  if (err) return err;
+  //console.log(mdFiles[0]);
+  //return mdFiles;
+  validateCommand.mdLinks('C:/Users/isis7/io/testMD/links.md', (err, fileData) => {
+    //FIXME: pasar el argumento correcto
+    if (err) return console.error(err);
+    const myRe = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.,~#?!&//=]*)?/gi;
+    const links = fileData.match(myRe);
+    console.log(links.length);
+  });
 });
 
 /* TODO:
