@@ -25,13 +25,14 @@ else {
 validateCommand.pathIsDirOrFile(args[0], (err, result) => {
   if (err) return console.error(`${chalk.red.inverse('ERROR')} no path to ${args[0]}`);
   const pathTo = validateCommand.pathAbs(args[0]);
+  // a partir de aquí se manejan rutas absolutas ↴
   if (result == 'f') { //is a file
     if (!validateCommand.isMD(pathTo)) 
       return console.error(`${path.basename(pathTo)} is not a md file`);
     else{
       validateCommand.findLinks(pathTo, (err, links) => {
-        console.log(links);
-        //TODO: formato que pide a la salida
+      console.log(links);
+      //TODO: formato que pide a la salida
       })
     }
   }
@@ -41,7 +42,13 @@ validateCommand.pathIsDirOrFile(args[0], (err, result) => {
         return console.error(`${path.basename(pathTo)} doesn't have md files`);
       else {
         //TODO: search links
-        console.log(`${path.basename(pathTo)} has md files`)
+        list.forEach(element => {
+          validateCommand.findLinks(element, (err, links) => {
+            console.log(links);
+          })
+          //console.log(element);
+        });
+        //console.log(`${path.basename(pathTo)} has md files`)
       }
     })
   }

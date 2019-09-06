@@ -11,7 +11,6 @@ const validateCommand = {
     },
 
     pathIsDirOrFile : (pathToCheck, cb) => {
-        //TODO: test
         // determina si la ruta proporcionada es de un directorio o un archivo
         fs.stat(pathToCheck, (err, stats) => {
             if (err) return cb(err); //error o incorrect path
@@ -26,8 +25,7 @@ const validateCommand = {
     },
 
     pathAbs : pathToCheck => {
-        // TODO: test
-        // si la ruta es relativa regresa la ruta absoluta
+        // si la ruta es relativa, la regresa como ruta absoluta
         const newPath = '';
         if (path.isAbsolute(pathToCheck)) return pathToCheck; //return true
         else return path.resolve(pathToCheck);//return false
@@ -60,8 +58,8 @@ const validateCommand = {
     },
 
     findLinks : (pathToFile, cb) => {
-        //FIXME: 
         //TODO: test
+        //FIXME: si regresa un array vacío?
         fs.readFile(pathToFile, 'utf8', (err, fileData) => {
             if (err) return cb(err);
             const reURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.,~#?!&//=]*)?/gi;
