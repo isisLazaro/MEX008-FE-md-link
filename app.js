@@ -25,6 +25,12 @@ const validateCommand = {
         //return fs.statSync(filePath).isFile();
     },
 
+    pathAbs : (pathToCheck) => {
+        const newPath = '';
+        if (path.isAbsolute(pathToCheck)) return pathToCheck; //return true
+        else return path.resolve(pathToCheck);//return false
+    },
+
     findMD : (pathToDir, cb) => {
         fs.readdir(pathToDir, (err, list) => {
             if (err) return cb(err);

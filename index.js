@@ -23,7 +23,9 @@ else {
 validateCommand.pathIsDirOrFile(args[0], (err, results) => {
   if (err) return console.error(`${chalk.red.inverse('ERROR')} no path to ${args[0]}`);
   console.log(results);
+  console.log(validateCommand.pathAbs(args[0]));
 })
+
 //console.log(fs.statSync(args[0]).isFile());
 //console.log(validateCommand.vIsDir(args[0]));
 //console.log(path.basename(args[0]));
