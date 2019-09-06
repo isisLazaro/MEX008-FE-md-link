@@ -6,17 +6,23 @@ const validateCommand = {
     vNumElements : commandLineArguments => {
         // si el comando proporcionado tiene el número de elementos correcto
         // regresa true
-        if (commandLineArguments.length <= 2 || commandLineArguments.length > 5) {
-            return false;
-        }
+        if (commandLineArguments.length <= 2 || commandLineArguments.length > 5) return false;
         return true;
     },
 
-    //TODO:
-    //TODO: asegurar que es una ruta
-    //TODO: archivo o directorio
-    vIsDir : filePath => {
-        return fs.statSync(filePath).isFile();
+    pathIsDirOrFile : (pathToCheck, cb) => {
+        //TODO: test
+        // determina si la ruta proporcionada es de un directorio o un archivo
+        fs.stat(pathToCheck, (err, stats) => {
+            if (err) return cb(err); //error o incorrect path
+            let pathIs = '';
+            if (stats.isDirectory()) pathIs = 'd'; // path is a directory
+            else {
+                if (stats.isFile()) pathIs = 'f'; // path is a file
+            }
+            cb(null, pathIs);
+        })
+        //return fs.statSync(filePath).isFile();
     },
 
     findMD : (pathToDir, cb) => {
