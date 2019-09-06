@@ -25,18 +25,32 @@ const validateCommand = {
         //return fs.statSync(filePath).isFile();
     },
 
-    pathAbs : (pathToCheck) => {
+    pathAbs : pathToCheck => {
+        // TODO: test
+        // si la ruta es relativa regresa la ruta absoluta
         const newPath = '';
         if (path.isAbsolute(pathToCheck)) return pathToCheck; //return true
         else return path.resolve(pathToCheck);//return false
     },
 
-    findMD : (pathToDir, cb) => {
+    isMD : pathToFile => {
+        //TODO: test
+        //return true if is a md file
+        return path.extname(pathToFile).slice(1) == 'md';
+    },
+
+    hasMD : (pathToDir, cb) => {
+        // TODO: test
+        // busca los archivos *.md en un directorio
+        // si el directorio tiene archivos md regresa un array con el nombre de los archivos
+        // si no regresa un array vacío
+        // FIXME:? no busca en sub-carpetas
         fs.readdir(pathToDir, (err, list) => {
             if (err) return cb(err);
-            //list = ['file0.ext', 'file1.ext']
+            //list = ['file0.ext', 'file1.ext', ...]
             const mdFiles = list.filter(element => {
-                return path.extname(element).slice(1) == 'md';
+                //return path.extname(element).slice(1) == 'md';
+                return validateCommand.isMD(element);
             });
             /* mdFiles.forEach(element => {
                 console.log(element);

@@ -6,6 +6,8 @@ module.exports = () => {
   console.log('Welcome to the outside!')
 }; */
 
+const path = require('path');
+
 const chalk = require('chalk');
 
 const validateCommand = require('./app.js');
@@ -20,17 +22,34 @@ else {
   //TODO: cambiar estilo de sugerencias
 }
 
-validateCommand.pathIsDirOrFile(args[0], (err, results) => {
+validateCommand.pathIsDirOrFile(args[0], (err, result) => {
   if (err) return console.error(`${chalk.red.inverse('ERROR')} no path to ${args[0]}`);
-  console.log(results);
-  console.log(validateCommand.pathAbs(args[0]));
+  const pathTo = validateCommand.pathAbs(args[0]);
+  if (result == 'f') { //is a file
+    if (!validateCommand.isMD(pathTo)) 
+      return console.error(`${path.basename(pathTo)} is not a md file`);
+    else{
+      //TODO: search links
+      console.log(`${path.basename(pathTo)} is a mdFile`)
+    }
+  }
+  else if (result == 'd') { //is a directory
+    //TODO:
+    validateCommand.hasMD(pathTo, (err, list) => {
+      if (list.length == 0) 
+        return console.error(`${path.basename(pathTo)} doesn't have md files`);
+      else {
+        console.log(`${path.basename(pathTo)} has md files`)
+      }
+    })
+  }
 })
 
 //console.log(fs.statSync(args[0]).isFile());
 //console.log(validateCommand.vIsDir(args[0]));
 //console.log(path.basename(args[0]));
 
-/* validateCommand.findMD(args[0], (err, mdFiles) => {
+/* validateCommand.hasMD(args[0], (err, mdFiles) => {
   if (err) return err;
   //console.log(mdFiles[0]);
   //return mdFiles;
