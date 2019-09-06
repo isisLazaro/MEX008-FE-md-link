@@ -29,25 +29,23 @@ validateCommand.pathIsDirOrFile(args[0], (err, result) => {
     if (!validateCommand.isMD(pathTo)) 
       return console.error(`${path.basename(pathTo)} is not a md file`);
     else{
-      //TODO: search links
-      console.log(`${path.basename(pathTo)} is a mdFile`)
+      validateCommand.findLinks(pathTo, (err, links) => {
+        console.log(links);
+        //TODO: formato que pide a la salida
+      })
     }
   }
   else if (result == 'd') { //is a directory
-    //TODO:
     validateCommand.hasMD(pathTo, (err, list) => {
       if (list.length == 0) 
         return console.error(`${path.basename(pathTo)} doesn't have md files`);
       else {
+        //TODO: search links
         console.log(`${path.basename(pathTo)} has md files`)
       }
     })
   }
 })
-
-//console.log(fs.statSync(args[0]).isFile());
-//console.log(validateCommand.vIsDir(args[0]));
-//console.log(path.basename(args[0]));
 
 /* validateCommand.hasMD(args[0], (err, mdFiles) => {
   if (err) return err;

@@ -59,12 +59,14 @@ const validateCommand = {
         })
     },
 
-    mdLinks : (pathToFile, cb) => {
-        //FIXME: pathtofile is an array [ 'links.md', 'noLinks.md' ] 
+    findLinks : (pathToFile, cb) => {
+        //FIXME: 
         //TODO: test
         fs.readFile(pathToFile, 'utf8', (err, fileData) => {
             if (err) return cb(err);
-            cb(null, fileData);
+            const reURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.,~#?!&//=]*)?/gi;
+            const links = fileData.match(reURL); //array
+            cb(null, links);
         })
     }
 }
