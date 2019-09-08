@@ -1,10 +1,15 @@
 const validateCommand = require('../app.js');
 
-const command0 = ["nodePath", "jsPath"]; // no valid
-const command1 = ["nodePath", "jsPath", "C:/", "--flag1", "flag2", "otro"]; // no valid
+const commandA = ["nodePath", "jsPath", "C:/", "--validate"]; //valid
+const commandB = ["nodePath", "jsPath"]; // no valid
+const commandC = ["nodePath", "jsPath", "C:/", "--validate", "--stats", "--algo"]; // no valid
+
+const command0 = ["READMEoriginal.md", "--validate"];
+const command1 = ["READMEoriginal.md", "--validate", "--stats"];
 //FIXME: cambiar las rutas y los nombres
+const command = ["READMEoriginal.md", "-stats"];
 const command2 = ["nodePath", "jsPath", "C:/"];
-const command3 = ["nodePath", "jsPath", "test" , "--flag1"]; // ./test
+const command3 = ["nodePath", "jsPath", "test" , "--validate"]; // ./test
 const command5 = ["nodePath", "jsPath", "index.js" , "--flag1", "flag2"];// ./index.js
 const command6 = ["nodePath", "jsPath", "tests/md-links.spec.js" , "--flag1"]; // esta ruta no existe
 const command7 = ["nodePath", "jsPath", "READMEoriginal.md" , "--flag1", "flag2"];// ./index.js
@@ -16,15 +21,30 @@ describe('checkNumInputElements', () => {
     expect(typeof validateCommand.checkNumInputElements).toBe('function');
   });
   it('Debería regresar true si el comando tiene el número correcto de elementos', () => {
-    expect(validateCommand.checkNumInputElements(command2)).toBeTruthy();
+    expect(validateCommand.checkNumInputElements(commandA)).toBeTruthy();
   });
   it('Debería regresar false si el comando no se escribe con argumentos y flags', () => {
-    expect(validateCommand.checkNumInputElements(command0)).toBeFalsy();
+    expect(validateCommand.checkNumInputElements(commandB)).toBeFalsy();
   });
   it('Debería regresar false si el comando se escribe con más elementos de los necesarios', () => {
-    expect(validateCommand.checkNumInputElements(command1)).toBeFalsy();
+    expect(validateCommand.checkNumInputElements(commandC)).toBeFalsy();
   })
 });
+
+describe('checkInputFormat', () => {
+  it('is a function', () => {
+    expect(typeof validateCommand.checkInputFormat).toBe('function')
+  })
+  test('Debería regresar true si se escribe la opción --validate o --stats', () => {
+    expect(validateCommand.checkInputFormat(command0)).toBeTruthy();
+  })
+  test('Debería regresar true si se escribe la opción --validate y --stats', () => {
+    expect(validateCommand.checkInputFormat(command1)).toBeTruthy();
+  })
+  test('Debería regresar false si la opción es incorrecta', () => {
+    expect(validateCommand.checkInputFormat(command)).toBeFalsy();
+  })
+})
 
 describe('pathIsDirOrFile', () => {
   it('is a function', () => {
@@ -122,24 +142,3 @@ describe('findLinks', () => {
     })
   })
 })
-
-
-/* describe('findMD', () => {
-  // FIXME: CAMBIAR A UNA RUTA RELATIVA (?)
-  it('is a function', () => {
-    expect(typeof validateCommand.findMD).toBe('function')
-  });
-  test('Encuentra archivos *.md', done => {
-    validateCommand.findMD('C:/Users/isis7/io/testMD', (err, mdfiles) => {
-     // expect(err).toBeTruthy();
-      expect(mdfiles).toEqual([ 'links.md', 'noLinks.md' ]);
-      done();
-    })
-  })
-  test('falla cuando no hay archivos *.md en el directorio', done => {
-    validateCommand.findMD('C:/Users/isis7/io/test', (err, mdfiles) => {
-      expect(err).toBeTruthy();
-      done();
-    })
-  })
-}); */

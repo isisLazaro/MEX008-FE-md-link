@@ -13,7 +13,7 @@ const validateCommand = {
     },
 
     checkInputFormat : args => {
-        //TODO: test
+        // si las flags están escritas correctamente regresa true
         // args - array con los elementos proporcionados por el usuario
         if (args.length == 2 && (args[1] == '--validate' || args[1] == '--stats')) return true
         else if(args.length == 3 && (args.indexOf('--validate') != -1 && args.indexOf('--stats') != -1)) return true
