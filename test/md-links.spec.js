@@ -1,8 +1,8 @@
 const validateCommand = require('../app.js');
 
-const command0 = ["nodePath", "jsPath"];
-const command1 = ["nodePath", "jsPath", "C:/", "--flag1", "flag2", "otro"];
-
+const command0 = ["nodePath", "jsPath"]; // no valid
+const command1 = ["nodePath", "jsPath", "C:/", "--flag1", "flag2", "otro"]; // no valid
+//FIXME: cambiar las rutas y los nombres
 const command2 = ["nodePath", "jsPath", "C:/"];
 const command3 = ["nodePath", "jsPath", "test" , "--flag1"]; // ./test
 const command5 = ["nodePath", "jsPath", "index.js" , "--flag1", "flag2"];// ./index.js
@@ -11,18 +11,18 @@ const command7 = ["nodePath", "jsPath", "READMEoriginal.md" , "--flag1", "flag2"
 
 const path = require('path');
 
-describe('vNumElements', () => {
+describe('checkNumInputElements', () => {
   it('is a function', () => {
-    expect(typeof validateCommand.vNumElements).toBe('function');
+    expect(typeof validateCommand.checkNumInputElements).toBe('function');
   });
   it('Debería regresar true si el comando tiene el número correcto de elementos', () => {
-    expect(validateCommand.vNumElements(command2)).toBeTruthy();
+    expect(validateCommand.checkNumInputElements(command2)).toBeTruthy();
   });
   it('Debería regresar false si el comando no se escribe con argumentos y flags', () => {
-    expect(validateCommand.vNumElements(command0)).toBeFalsy();
+    expect(validateCommand.checkNumInputElements(command0)).toBeFalsy();
   });
   it('Debería regresar false si el comando se escribe con más elementos de los necesarios', () => {
-    expect(validateCommand.vNumElements(command1)).toBeFalsy();
+    expect(validateCommand.checkNumInputElements(command1)).toBeFalsy();
   })
 });
 
@@ -73,6 +73,56 @@ describe('isMD', () => {
     expect(validateCommand.isMD(path.resolve(command5[2]))).toBeFalsy();
   });
 });
+
+describe('hasMD', () => {
+  it('is a function', () => {
+    expect(typeof validateCommand.hasMD).toBe('function');
+  });
+  test('Si el directorio tiene archivos *.md, regresa un array de longitud > 0', done => {
+    validateCommand.hasMD(path.resolve('./'), (err, mdFiles) => {
+      expect(mdFiles.length).toBeGreaterThan(0);
+      done();
+    })
+  });
+  test('Si el directorio no tiene archivos *.md, regresa un array de longitud cero', done => {
+    validateCommand.hasMD(path.resolve('node_modules'), (err, mdFiles) => {
+      expect(mdFiles).toHaveLength(0);
+      done();
+    })
+  });
+  test('falla cuando no existe el directorio', done => {
+    validateCommand.hasMD(path.resolve('node-modules'), (err, mdFiles) => {
+      expect(err).toBeTruthy();
+      done();
+    })
+  })
+}); 
+
+describe('findLinks', () => {
+  //TODO: validar links
+  it('is a function', () => {
+    expect(typeof validateCommand.findLinks).toBe('function');
+  });
+  test('Cuando el archivo tiene links, regresa un array de longitud mayor que cero', done => {
+    validateCommand.findLinks(path.resolve('READMEoriginal.md'), (err, links) => {
+      expect(links.length).toBeGreaterThan(0);
+      done();
+    })
+  })
+  test('Cuando el archivo no tiene links, regresa un array de longitud cero', done => {
+    validateCommand.findLinks(path.resolve('README.md'), (err, links) => {
+      expect(links).toHaveLength(0);
+      done();
+    })
+  })
+  test('falla cuando no existe el archivo', done => {
+    validateCommand.findLinks('READMEx.md', (err, links) => {
+      expect(err).toBeTruthy();
+      done();
+    })
+  })
+})
+
 
 /* describe('findMD', () => {
   // FIXME: CAMBIAR A UNA RUTA RELATIVA (?)

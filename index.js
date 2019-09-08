@@ -13,7 +13,7 @@ const chalk = require('chalk');
 const validateCommand = require('./app.js');
 
 
-if (validateCommand.vNumElements(process.argv)) {
+if (validateCommand.checkNumInputElements(process.argv)) {
   [pathProcessExe, pahtJsExe, ...args] = process.argv;
 }
 else {
@@ -25,30 +25,37 @@ else {
 validateCommand.pathIsDirOrFile(args[0], (err, result) => {
   if (err) return console.error(`${chalk.red.inverse('ERROR')} no path to ${args[0]}`);
   const pathTo = validateCommand.pathAbs(args[0]);
-  // a partir de aquí se manejan rutas absolutas ↴
+  // > a partir de aquí se manejan rutas absolutas ↴
   if (result == 'f') { //is a file
     if (!validateCommand.isMD(pathTo)) 
       return console.error(`${path.basename(pathTo)} is not a md file`);
     else{
       validateCommand.findLinks(pathTo, (err, links) => {
-      console.log(links);
-      //TODO: formato que pide a la salida
+        if (err) return console.error(err);
+        if (links.length == 0) return console.log(`no se encontraron links en el archivo ${path.basename(pathTo)}`)
+        links.forEach(element => {
+          console.log(`${args[0]}    ${element}`);
+        })
+        //console.log(args[0], links);
+        //TODO: formato que pide a la salida
       })
     }
   }
   else if (result == 'd') { //is a directory
     validateCommand.hasMD(pathTo, (err, list) => {
-      if (list.length == 0) 
-        return console.error(`${path.basename(pathTo)} doesn't have md files`);
+      if (err) return console.error(err);
+      //console.log(list);
+      if (list.length == 0) return console.error(`${path.basename(pathTo)} doesn't have md files`);
       else {
         //TODO: search links
         list.forEach(element => {
-          validateCommand.findLinks(element, (err, links) => {
-            console.log(links);
+          validateCommand.findLinks(path.join(pathTo, element), (err, links) => {
+            if (err) return console.error(err);
+            links.forEach(link => {
+              console.log(`${args[0]}${element}    ${link}`)
+            })
           })
-          //console.log(element);
         });
-        //console.log(`${path.basename(pathTo)} has md files`)
       }
     })
   }

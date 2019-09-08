@@ -1,13 +1,19 @@
+"use strict";
+
 const fs = require('fs');
 const path = require('path');
 
 const validateCommand = {
 
-    vNumElements : commandLineArguments => {
+    checkNumInputElements : commandLineArguments => {
         // si el comando proporcionado tiene el número de elementos correcto
         // regresa true
         if (commandLineArguments.length <= 2 || commandLineArguments.length > 5) return false;
         return true;
+    },
+
+    checkInputFormat : () => {
+
     },
 
     pathIsDirOrFile : (pathToCheck, cb) => {
@@ -32,7 +38,6 @@ const validateCommand = {
     },
 
     isMD : pathToFile => {
-        //TODO: test
         //return true if is a md file
         return path.extname(pathToFile).slice(1) == 'md';
     },
@@ -41,12 +46,12 @@ const validateCommand = {
         // TODO: test
         // busca los archivos *.md en un directorio
         // si el directorio tiene archivos md regresa un array con el nombre de los archivos
-        // si no regresa un array vacío
+        // si no, regresa un array vacío
         // FIXME:? no busca en sub-carpetas
-        fs.readdir(pathToDir, (err, list) => {
+        fs.readdir(pathToDir, (err, files) => {
             if (err) return cb(err);
-            //list = ['file0.ext', 'file1.ext', ...]
-            const mdFiles = list.filter(element => {
+            //files = ['file0.ext', 'file1.ext', ...]
+            const mdFiles = files.filter(element => {
                 //return path.extname(element).slice(1) == 'md';
                 return validateCommand.isMD(element);
             });
@@ -58,12 +63,14 @@ const validateCommand = {
     },
 
     findLinks : (pathToFile, cb) => {
-        //TODO: test
-        //FIXME: si regresa un array vacío?
+        //TODO: test: si son rutas?
+        //TODO: paréntesis
         fs.readFile(pathToFile, 'utf8', (err, fileData) => {
             if (err) return cb(err);
-            const reURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.,~#?!&//=]*)?/gi;
-            const links = fileData.match(reURL); //array
+            const reURL = /https?:\/\/?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.,~#?!&//=]*)?/gi;
+            //const reURL = /https?:\/\/?[-a-zA-Z0-9@:%_\+~#=]{1,256}/gi;
+            let links = fileData.match(reURL);
+            if (links === null) links = [];
             cb(null, links);
         })
     }
