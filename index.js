@@ -22,6 +22,8 @@ else {
   //TODO: cambiar estilo de sugerencias
 }
 
+console.log(validateCommand.checkInputFormat(args));
+
 validateCommand.pathIsDirOrFile(args[0], (err, result) => {
   if (err) return console.error(`${chalk.red.inverse('ERROR')} no path to ${args[0]}`);
   const pathTo = validateCommand.pathAbs(args[0]);

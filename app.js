@@ -5,15 +5,19 @@ const path = require('path');
 
 const validateCommand = {
 
-    checkNumInputElements : commandLineArguments => {
+    checkNumInputElements : cliArguments => {
         // si el comando proporcionado tiene el número de elementos correcto
         // regresa true
-        if (commandLineArguments.length <= 2 || commandLineArguments.length > 5) return false;
+        if (cliArguments.length <= 2 || cliArguments.length > 5) return false;
         return true;
     },
 
-    checkInputFormat : () => {
-
+    checkInputFormat : args => {
+        //TODO: test
+        // args - array con los elementos proporcionados por el usuario
+        if (args.length == 2 && (args[1] == '--validate' || args[1] == '--stats')) return true
+        else if(args.length == 3 && (args.indexOf('--validate') != -1 && args.indexOf('--stats') != -1)) return true
+        else return false
     },
 
     pathIsDirOrFile : (pathToCheck, cb) => {
