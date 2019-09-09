@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
+const https = require('https');
 
 const validateCommand = {
 
@@ -71,12 +73,30 @@ const validateCommand = {
         //TODO: paréntesis
         fs.readFile(pathToFile, 'utf8', (err, fileData) => {
             if (err) return cb(err);
-            const reURL = /https?:\/\/?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.,~#?!&//=]*)?/gi;
+            const reURL = /https?:\/\/?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9(@:%_\+.,~#?!&//=]*)?/gi;
             //const reURL = /https?:\/\/?[-a-zA-Z0-9@:%_\+~#=]{1,256}/gi;
             let links = fileData.match(reURL);
             if (links === null) links = [];
             cb(null, links);
         })
+    },
+
+    checkLinkStatus : links => {
+        let validateLinks = [];
+        let count = 0;
+        for (let i = 0; i < links.length; i++) {
+            https.get(links[i], response => {
+                validateLinks[i] = {
+                    href : links[i],
+                    status : response.statusCode
+                };
+                count++;
+                if (count == links.length) {
+                    console.log(validateLinks);
+                    //return validateLinks;
+                }
+            })  
+        }
     }
 }
 

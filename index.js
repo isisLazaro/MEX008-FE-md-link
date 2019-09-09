@@ -42,8 +42,7 @@ validateCommand.pathIsDirOrFile(args[0], (err, result) => {
         links.forEach(element => {
           console.log(`${args[0]}    ${element}`);
         })
-        //console.log(args[0], links);
-        //TODO: formato que pide a la salida
+        if (args.indexOf('--validate') != -1) validateCommand.checkLinkStatus(links);
       })
     }
   }
@@ -57,7 +56,7 @@ validateCommand.pathIsDirOrFile(args[0], (err, result) => {
         list.forEach(element => {
           validateCommand.findLinks(path.join(pathTo, element), (err, links) => {
             if (err) return console.error(err);
-            if (links.length == 0) return console.log(`no se encontraron links en el archivo ${pathTo}`)
+            if (links.length == 0) return console.log(`no se encontraron links en el archivo ${element} `)
             links.forEach(link => {
               console.log(`${args[0]}${element}    ${link}`)
             })
@@ -68,5 +67,10 @@ validateCommand.pathIsDirOrFile(args[0], (err, result) => {
   }
 })
 
+/* const req = require('https').get('https://mexico.as.com/404', res => {
+  console.log(`statusCode: ${res.statusCode}`);
+}).on('error', (e) => {
+  console.error(e);
+}); */
 //TODO: function print
 //commander, minimist
